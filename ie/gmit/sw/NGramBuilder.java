@@ -25,6 +25,8 @@ public class NGramBuilder {
     }
 
     public void build() throws InterruptedException, IOException {
+        int totalNGrams = 0;
+
         for (File file : filesDirectory.listFiles()) {
 
             if (!file.isFile()) {
@@ -35,7 +37,7 @@ public class NGramBuilder {
 
             String content = Files.readString(file.toPath());
 
-            content = content.replaceAll("[^a-zA-Z0-9]", "");
+            content = content.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
 
             char[] ngram = new char[ngramSize];
             for (int i = 0; i < content.length() - ngramSize; i++) {
@@ -44,17 +46,24 @@ public class NGramBuilder {
                 }
                 String t = new String(ngram);
                 frequency.put(t, frequency.getOrDefault(t, 1L) + 1L);
+                totalNGrams++;
             }
             System.out.println(" - " + file.getName());
         }
 
-        FileWriter myWriter;
+        System.out.println(totalNGrams);
 
-        myWriter = new FileWriter(outputFile);
+        FileWriter myWriter = new FileWriter(outputFile);
+
+        // Sort the hashmatch
         List<Entry<String, Long>> list = new LinkedList<>(frequency.entrySet());
         list.sort((a, b) -> -(int) (a.getValue() - b.getValue()));
+
         for (var pair : list) {
-            myWriter.write(pair.getKey() + "," + pair.getValue() + '\n');
+            String ngram = pair.getKey();
+            long freq = pair.getValue();
+            double percent = ((double) pair.getValue() / (double) totalNGrams) * 100;
+            myWriter.write(ngram + "," + freq + "," + percent + '\n');
         }
         myWriter.close();
     }

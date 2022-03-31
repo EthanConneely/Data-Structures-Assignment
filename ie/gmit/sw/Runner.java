@@ -12,6 +12,7 @@ public class Runner {
 		File filesDirectory = new File("./Files/");
 		File outputFile = new File("./Output.csv");
 		int ngramSize = 4;
+		Boolean alphanumFiltering = false;
 
 		while (true) {
 			// You should put the following code into a menu or Menu class
@@ -25,9 +26,9 @@ public class Runner {
 			System.out.println("(1) Specify Text File Directory");
 			System.out.println("(2) Specify n-Gram Size");
 			System.out.println("(3) Specify Output File");
-			System.out.println("(4) Enable Alphanumeric Filtering");
-			System.out.println("(5) Build n-Grams ");
-			System.out.println("(6) Quit");
+			System.out.println("(4) Build n-Grams ");
+			System.out.println("(5) Quit");
+			System.out.println("(6) Enable Alphanumeric Filtering");
 
 			// Output a menu of options and solicit text from the user
 			System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
@@ -55,17 +56,19 @@ public class Runner {
 					break;
 
 				case 4:
-					System.out.println("Enableing alphanumeric filtering!");
-					break;
-
-				case 5:
 					NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize);
 					builder.build();
 					break;
 
-				case 6:
+				case 5:
 					scanner.close();
 					System.exit(0);
+					break;
+
+				case 6:
+					alphanumFiltering = !alphanumFiltering;
+					System.out.println("Toggling alphanumeric filtering: " + alphanumFiltering);
+					Thread.sleep(1000);
 					break;
 			}
 		}
