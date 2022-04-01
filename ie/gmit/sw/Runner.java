@@ -12,23 +12,24 @@ public class Runner {
 		File filesDirectory = new File("./Files/");
 		File outputFile = new File("./Output.csv");
 		int ngramSize = 4;
-		Boolean alphanumFiltering = false;
+		Boolean alphanumFiltering = true;
+		Boolean calculatePercentFrequency = false;
 
+		// Infinite loop that closes when you (5) Quit
 		while (true) {
-			// You should put the following code into a menu or Menu class
 			System.out.println(ConsoleColour.WHITE);
 			System.out.println("************************************************************");
-			System.out.println("*      GMIT - Dept. Computer Science & Applied Physics     *");
 			System.out.println("*                                                          *");
 			System.out.println("*                  N-Gram Frequency Builder                *");
 			System.out.println("*                                                          *");
 			System.out.println("************************************************************");
-			System.out.println("(1) Specify Text File Directory");
-			System.out.println("(2) Specify n-Gram Size");
-			System.out.println("(3) Specify Output File");
-			System.out.println("(4) Build n-Grams ");
+			System.out.println("(1) Specify Text File Directory (Current: \"" + filesDirectory + "\")");
+			System.out.println("(2) Specify n-Gram Size (Current: " + ngramSize + ")");
+			System.out.println("(3) Specify Output File (Current: \"" + outputFile + "\")");
+			System.out.println("(4) Build n-Grams");
 			System.out.println("(5) Quit");
-			System.out.println("(6) Enable Alphanumeric Filtering");
+			System.out.println("(6) Toggle Alphanumeric Filtering (Current: " + alphanumFiltering + ")");
+			System.out.println("(7) Toggle Calculate Percent Frequency (Current: " + calculatePercentFrequency + ")");
 
 			// Output a menu of options and solicit text from the user
 			System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
@@ -56,7 +57,8 @@ public class Runner {
 					break;
 
 				case 4:
-					NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize);
+					NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize, alphanumFiltering,
+							calculatePercentFrequency);
 					builder.build();
 					break;
 
@@ -67,8 +69,10 @@ public class Runner {
 
 				case 6:
 					alphanumFiltering = !alphanumFiltering;
-					System.out.println("Toggling alphanumeric filtering: " + alphanumFiltering);
-					Thread.sleep(1000);
+					break;
+
+				case 7:
+					calculatePercentFrequency = !calculatePercentFrequency;
 					break;
 			}
 		}
