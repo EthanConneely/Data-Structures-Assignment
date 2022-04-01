@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class NGramBuilder {
+public class NGramBuilder
+{
 
     private File filesDirectory;
     private File outputFile;
@@ -19,8 +20,8 @@ public class NGramBuilder {
     private Boolean alphanumFiltering;
     private Boolean calculatePercentFrequency;
 
-    public NGramBuilder(File filesDirectory, File outputFile, int ngramSize, Boolean alphanumFiltering,
-            Boolean calculatePercentFrequency) {
+    public NGramBuilder(File filesDirectory, File outputFile, int ngramSize, Boolean alphanumFiltering, Boolean calculatePercentFrequency)
+    {
         this.filesDirectory = filesDirectory;
         this.outputFile = outputFile;
         this.ngramSize = ngramSize;
@@ -29,12 +30,15 @@ public class NGramBuilder {
         frequency = new HashMap<>();
     }
 
-    public void build() throws InterruptedException, IOException {
+    public void build() throws InterruptedException, IOException
+    {
         int totalNGrams = 0;
 
-        for (File file : filesDirectory.listFiles()) {
+        for (File file : filesDirectory.listFiles())
+        {
 
-            if (!file.isFile()) {
+            if (!file.isFile())
+            {
                 continue;
             }
 
@@ -45,13 +49,16 @@ public class NGramBuilder {
 
             String content = Files.readString(file.toPath());
 
-            if (alphanumFiltering) {
+            if (alphanumFiltering)
+            {
                 content = content.toLowerCase().replaceAll("[^a-zA-Z]", "");
             }
 
             char[] ngram = new char[ngramSize];
-            for (int i = 0; i < content.length() - ngramSize; i++) {
-                for (int j = 0; j < ngramSize; j++) {
+            for (int i = 0; i < content.length() - ngramSize; i++)
+            {
+                for (int j = 0; j < ngramSize; j++)
+                {
                     ngram[(i + j) % ngramSize] = content.charAt(i + j);
                 }
                 String t = new String(ngram);
@@ -67,13 +74,15 @@ public class NGramBuilder {
         // Write the sorted map to csv file
         FileWriter myWriter = new FileWriter(outputFile);
 
-        for (var pair : list) {
+        for (var pair : list)
+        {
             String ngram = pair.getKey();
             long freq = pair.getValue();
             double percent = ((double) pair.getValue() / (double) totalNGrams) * 100;
             myWriter.write(ngram + ",");
             myWriter.write(freq + "");
-            if (calculatePercentFrequency) {
+            if (calculatePercentFrequency)
+            {
                 myWriter.write("," + percent);
             }
             myWriter.write('\n');

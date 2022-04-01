@@ -3,9 +3,11 @@ package ie.gmit.sw;
 import java.io.File;
 import java.util.Scanner;
 
-public class Runner {
+public class Runner
+{
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception
+	{
 		Scanner scanner = new Scanner(System.in);
 
 		// Defaults if nothing is specified
@@ -16,7 +18,8 @@ public class Runner {
 		Boolean calculatePercentFrequency = false;
 
 		// Infinite loop that closes when you (5) Quit
-		while (true) {
+		while (true)
+		{
 			System.out.println(ConsoleColour.WHITE);
 			System.out.println("************************************************************");
 			System.out.println("*                                                          *");
@@ -40,40 +43,40 @@ public class Runner {
 
 			System.out.println(ConsoleColour.WHITE);
 
-			switch (option) {
-				case 1:
-					System.out.print("Specify text files Directory: ");
-					filesDirectory = new File(scanner.next());
-					break;
+			switch (option)
+			{
+			case 1:
+				System.out.print("Specify text files Directory: ");
+				filesDirectory = new File(scanner.next());
+				break;
 
-				case 2:
-					System.out.print("Specify n-gram Size: ");
-					ngramSize = scanner.nextInt();
-					break;
+			case 2:
+				System.out.print("Specify n-gram Size: ");
+				ngramSize = scanner.nextInt();
+				break;
 
-				case 3:
-					System.out.print("Specify output File: ");
-					outputFile = new File(scanner.next());
-					break;
+			case 3:
+				System.out.print("Specify output File: ");
+				outputFile = new File(scanner.next());
+				break;
 
-				case 4:
-					NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize, alphanumFiltering,
-							calculatePercentFrequency);
-					builder.build();
-					break;
+			case 4:
+				NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize, alphanumFiltering, calculatePercentFrequency);
+				builder.build();
+				break;
 
-				case 5:
-					scanner.close();
-					System.exit(0);
-					break;
+			case 5:
+				scanner.close();
+				System.exit(0);
+				break;
 
-				case 6:
-					alphanumFiltering = !alphanumFiltering;
-					break;
+			case 6:
+				alphanumFiltering = !alphanumFiltering;
+				break;
 
-				case 7:
-					calculatePercentFrequency = !calculatePercentFrequency;
-					break;
+			case 7:
+				calculatePercentFrequency = !calculatePercentFrequency;
+				break;
 			}
 		}
 	}
