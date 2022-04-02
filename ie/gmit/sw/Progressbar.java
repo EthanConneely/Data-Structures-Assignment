@@ -2,19 +2,6 @@ package ie.gmit.sw;
 
 public class Progressbar
 {
-
-    public static void display() throws InterruptedException
-    {
-        // You may want to include a progress meter in you assignment!
-        System.out.print(ConsoleColour.YELLOW); // Change the colour of the console text
-        int size = 100; // The size of the meter. 100 equates to 100%
-        for (int i = 0; i < size; i++)
-        { // The loop equates to a sequence of processing steps
-            printProgress(i + 10, size); // After each (some) steps, update the progress meter
-            Thread.sleep(2); // Slows things down so the animation is visible
-        }
-    }
-
     /*
      * Terminal Progress Meter ----------------------- You might find the progress
      * meter below useful. The progress effect works best if you call this method
@@ -39,6 +26,7 @@ public class Progressbar
      */
     public static void printProgress(int index, int total)
     {
+
         if (index > total)
         {
             return; // Out of range
