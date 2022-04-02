@@ -32,8 +32,8 @@ public class Progressbar
             return; // Out of range
         }
         int size = 50; // Must be less than console width
-        char done = '█'; // Change to whatever you like.
-        char todo = '░'; // Change to whatever you like.
+        char done = '#'; // Change to whatever you like.
+        char todo = '_'; // Change to whatever you like.
 
         // Compute basic metrics for the meter
         int complete = (100 * index) / total;

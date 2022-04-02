@@ -15,10 +15,12 @@ public class NGramBuilder
     private File filesDirectory;
     private File outputFile;
     private int ngramSize;
-    private Map<String, Long> frequency;
     private Boolean whitespaceFiltering;
     private Boolean calculatePercentFrequency;
     private Boolean useSlidingNGramCalculation;
+
+    private Map<String, Long> frequency;
+    int totalNGrams = 0;
 
     public NGramBuilder(File filesDirectory, File outputFile, int ngramSize, Boolean whitespaceFiltering, Boolean calculatePercentFrequency, Boolean useSlidingNGramCalculation)
     {
@@ -31,11 +33,14 @@ public class NGramBuilder
         frequency = new HashMap<>();
     }
 
-    // O(n * n * 1)
+    // O(n^2*1)
+    // n number of files
+    // n number of character per file
+    // 1 the ngram size for loop is always the same regardless of the input size
+    // ignore constants so
+    // O(n^2)
     public void build() throws InterruptedException, IOException
     {
-        int totalNGrams = 0;
-
         for (File file : filesDirectory.listFiles())// O(n) number of files
         {
             if (!file.isFile())
@@ -60,7 +65,7 @@ public class NGramBuilder
 
             for (int i = 0; i < size; i += useSlidingNGramCalculation ? 1 : ngramSize)// O(n) number of chars in each file
             {
-                // Only render the progress bar every so often otherwise its way to slow
+                // Only render the progress bar every so often otherwise slows it down to much
                 if (i % Math.max(size / 100, 1) == 0)
                 {
                     Progressbar.printProgress(i, size);
@@ -78,17 +83,26 @@ public class NGramBuilder
                     }
                     // System.out.print(ngram[j]);
                 }
-
                 // System.out.println();
 
-                String t = new String(ngram);
-                frequency.put(t, frequency.getOrDefault(t, 0L) + 1L);
+                String ngramString = new String(ngram);
+                frequency.put(ngramString, frequency.getOrDefault(ngramString, 0L) + 1L);
                 totalNGrams++;
             }
+            // print the progress bar at 100% due only running
+            // it every so often it never reaches 100
             Progressbar.printProgress(size, size);
             System.out.println();
         }
+    }
 
+    // O(2n log(n))
+    // quick sort = n * log(n)
+    // n for through the sorted array
+    // ignore constants in O notation so
+    // O(n log(n))
+    public void output() throws IOException
+    {
         // Sort the hashmap
         List<Entry<String, Long>> list = new LinkedList<>(frequency.entrySet());
 
@@ -97,7 +111,7 @@ public class NGramBuilder
 
         // Write the sorted map to csv file
         FileWriter myWriter = new FileWriter(outputFile);
-        for (var pair : list)
+        for (var pair : list) // O(n)
         {
             String ngram = pair.getKey();
             long freq = pair.getValue();

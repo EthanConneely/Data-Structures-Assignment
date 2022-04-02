@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Runner
 {
-    // O(?) Halting problem is unsolvable im afraid
+    // output O(n * log(n)) +
     public static void main(String[] args) throws Exception
     {
         Scanner scanner = new Scanner(System.in);
 
-        // Defaults if nothing is specified
+        // Defaults if nothing is specified (these are not hardcoded)
         File filesDirectory = new File("./Files/");
         File outputFile = new File("./Output.csv");
         int ngramSize = 4;
@@ -63,6 +63,7 @@ public class Runner
             case 4:
                 NGramBuilder builder = new NGramBuilder(filesDirectory, outputFile, ngramSize, whitespaceFiltering, calculatePercentFrequency, useSlidingNGramCalculation);
                 builder.build();
+                builder.output();
                 break;
 
             case 5:
